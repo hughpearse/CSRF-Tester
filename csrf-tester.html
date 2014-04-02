@@ -1,0 +1,200 @@
+<html>
+<head>
+<!--https://en.wikipedia.org/wiki/Internet_media_type#Type_application-->
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+</head>
+
+<body>
+<script type="text/javascript">
+
+/*
+ * Author: Hugh Pearse
+ * 
+ * Note to self:
+ * CSRF can be done with a POST request providing the content type is:
+ * text/plain, multipart/form-data or application/x-www-form-urlencoded
+ *
+ */
+
+function testCSRF()
+{
+	/*
+	var typeList = new Array();
+	typeList[0] = "application/json"
+	typeList[1] = "application/javascript"
+	typeList[2] = "text/html"
+	typeList[3] = "text/javascript"
+	typeList[4] = "text/plain"
+	typeList[5] = "text/xml"
+	typeList[6] = "application/xhtml+xml"
+	typeList[7] = "application/xml"
+	*/
+	
+	///*	
+	var typeList = new Array();
+	typeList[0] = "application/atom+xml"
+	typeList[1] = "application/ecmascript"
+	typeList[2] = "application/EDI-X12"
+	typeList[3] = "application/EDIFACT"
+	typeList[4] = "application/json"
+	typeList[5] = "application/javascript"
+	typeList[6] = "application/octet-stream"
+	typeList[7] = "application/ogg"
+	typeList[8] = "application/pdf"
+	typeList[9] = "application/postscript"
+	typeList[10] = "application/rdf+xml"
+	typeList[11] = "application/rss+xml"
+	typeList[12] = "application/soap+xml"
+	typeList[13] = "application/font-woff"
+	typeList[14] = "application/xhtml+xml"
+	typeList[15] = "application/xml"
+	typeList[16] = "application/xml-dtd"
+	typeList[17] = "application/xop+xml"
+	typeList[18] = "application/zip"
+	typeList[19] = "application/gzip"
+	typeList[20] = "audio/basic"
+	typeList[21] = "audio/L24"
+	typeList[22] = "audio/mp4"
+	typeList[23] = "audio/mpeg"
+	typeList[24] = "audio/ogg"
+	typeList[25] = "audio/vorbis"
+	typeList[26] = "audio/vnd.rn-realaudio"
+	typeList[27] = "audio/vnd.wave"
+	typeList[28] = "audio/webm"
+	typeList[29] = "image/gif"
+	typeList[30] = "image/jpeg"
+	typeList[31] = "image/pjpeg"
+	typeList[32] = "image/png"
+	typeList[33] = "image/svg+xml"
+	typeList[34] = "image/tiff"
+	typeList[35] = "message/http"
+	typeList[36] = "message/imdn+xml"
+	typeList[37] = "message/partial"
+	typeList[38] = "message/rfc822"
+	typeList[39] = "model/example"
+	typeList[40] = "model/iges"
+	typeList[41] = "model/mesh"
+	typeList[42] = "model/vrml"
+	typeList[43] = "model/x3d+binary"
+	typeList[44] = "model/x3d+vrml"
+	typeList[45] = "model/x3d+xml"
+	typeList[46] = "multipart/mixed"
+	typeList[47] = "multipart/alternative"
+	typeList[48] = "multipart/related"
+	typeList[49] = "multipart/form-data"
+	typeList[50] = "multipart/signed"
+	typeList[51] = "multipart/encrypted"
+	typeList[52] = "text/cmd"
+	typeList[53] = "text/css"
+	typeList[54] = "text/csv"
+	typeList[55] = "text/html"
+	typeList[56] = "text/javascript"
+	typeList[57] = "text/plain"
+	typeList[58] = "text/vcard"
+	typeList[59] = "text/xml"
+	typeList[60] = "video/mpeg"
+	typeList[61] = "video/mp4"
+	typeList[62] = "video/ogg"
+	typeList[63] = "video/quicktime"
+	typeList[64] = "video/webm"
+	typeList[65] = "video/x-matroska"
+	typeList[66] = "video/x-ms-wmv"
+	typeList[67] = "video/x-flv"
+	typeList[68] = "application/vnd.oasis.opendocument.text"
+	typeList[69] = "application/vnd.oasis.opendocument.spreadsheet"
+	typeList[70] = "application/vnd.oasis.opendocument.presentation"
+	typeList[71] = "application/vnd.oasis.opendocument.graphics"
+	typeList[72] = "application/vnd.ms-excel"
+	typeList[73] = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+	typeList[74] = "application/vnd.ms-powerpoint"
+	typeList[75] = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+	typeList[76] = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+	typeList[77] = "application/vnd.mozilla.xul+xml"
+	typeList[78] = "application/vnd.google-earth.kml+xml"
+	typeList[79] = "application/vnd.google-earth.kmz"
+	typeList[80] = "application/vnd.dart"
+	typeList[81] = "application/vnd.android.package-archive"
+	typeList[82] = "application/x-deb"
+	typeList[83] = "application/x-dvi"
+	typeList[84] = "application/x-font-ttf"
+	typeList[85] = "application/x-javascript"
+	typeList[86] = "application/x-latex"
+	typeList[87] = "application/x-mpegURL"
+	typeList[88] = "application/x-rar-compressed"
+	typeList[89] = "application/x-shockwave-flash"
+	typeList[90] = "application/x-stuffit"
+	typeList[91] = "application/x-tar"
+	typeList[92] = "application/x-www-form-urlencoded"
+	typeList[93] = "application/x-xpinstall"
+	typeList[94] = "audio/x-aac"
+	typeList[95] = "audio/x-caf"
+	typeList[96] = "image/x-xcf"
+	typeList[97] = "text/x-gwt-rpc"
+	typeList[98] = "text/x-jquery-tmpl"
+	typeList[99] = "text/x-markdown"
+	typeList[100] = "application/x-pkcs12"
+	typeList[101] = "application/x-pkcs7-certificates"
+	typeList[102] = "application/x-pkcs7-certreqresp"
+	typeList[103] = "application/x-pkcs7-mime"
+	typeList[104] = "application/x-pkcs7-signature"
+	//*/
+	
+	var verbList = new Array();
+	verbList[0] = "GET"
+	verbList[1] = "POST"
+	/*
+	var verbList = new Array();
+	verbList[0] = "GET"
+	verbList[1] = "POST"
+	verbList[2] = "OPTIONS"
+	verbList[3] = "HEAD"
+	verbList[4] = "PUT"
+	verbList[5] = "DELETE"
+	verbList[6] = "TRACE"
+	verbList[7] = "CONNECT"
+	verbList[8] = "PROPFIND"
+	verbList[9] = "PROPPATCH"
+	verbList[10] = "MKCOL"
+	verbList[11] = "COPY"
+	verbList[12] = "MOVE"
+	verbList[13] = "LOCK"
+	verbList[14] = "UNLOCK"
+	verbList[15] = "VERSION-CONTROL"
+	verbList[16] = "REPORT"
+	verbList[17] = "CHECKOUT"
+	verbList[18] = "CHECKIN"
+	verbList[19] = "UNCHECKOUT"
+	verbList[20] = "MKWORKSPACE"
+	verbList[21] = "UPDATE"
+	verbList[22] = "LABEL"
+	verbList[23] = "MERGE"
+	verbList[24] = "BASELINE-CONTROL"
+	verbList[25] = "MKACTIVITY"
+	verbList[26] = "ORDERPATCH"
+	verbList[27] = "ACL"
+	verbList[28] = "PATCH"
+	verbList[29] = "SEARCH"
+	*/
+
+	for (var j in verbList) {
+		for (var i in typeList) {
+			$.ajax({
+				url: "http://www.example.com/" + verbList[j] + "/" + typeList[i],
+				type: verbList[j],
+				contentType: typeList[i],
+			}).done(function (data) {
+				// the response is in the data variable
+			}).error(function () {
+				//something went wrong
+			});
+		}
+	}
+}
+
+//Call AJAX	
+//$(document).ready(testCSRF);
+</script>
+<h2>AJAX</h2>
+<button type="button" onclick="testCSRF()">Request data</button>
+</body>
+</html>
